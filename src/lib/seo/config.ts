@@ -74,7 +74,11 @@ export const SEO_CONFIG = {
   // Add your IDs via environment variables (.env.local)
   analytics: {
     googleAnalyticsId: process.env.NEXT_PUBLIC_GA_ID as string | undefined,
-    googleSearchConsole: process.env.NEXT_PUBLIC_GSC_VERIFICATION as string | undefined,
+    googleSearchConsole: (process.env.NEXT_PUBLIC_GSC_VERIFICATION
+      ? process.env.NEXT_PUBLIC_GSC_VERIFICATION.includes(',')
+        ? process.env.NEXT_PUBLIC_GSC_VERIFICATION.split(',').map(s => s.trim()).filter(Boolean)
+        : process.env.NEXT_PUBLIC_GSC_VERIFICATION
+      : undefined) as string | string[] | undefined,
     bingWebmaster: process.env.NEXT_PUBLIC_BING_VERIFICATION as string | undefined,
   },
 

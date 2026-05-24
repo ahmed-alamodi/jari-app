@@ -1,14 +1,26 @@
 import Link from 'next/link';
 import { headers } from 'next/headers';
 import StreakDashboard from '../components/StreakDashboard';
+import JsonLd from '../components/seo/JsonLd';
+import { buildWebPageSchema } from '../lib/seo/schema';
+import { generatePageMetadata } from '../lib/seo/metadata';
+import { PAGE_META, SEO_CONFIG } from '../lib/seo/config';
 
 export const dynamic = 'force-dynamic';
+
+const pageMeta = PAGE_META.home;
+
+export const metadata = generatePageMetadata({
+  title: pageMeta.title,
+  description: pageMeta.description,
+  path: pageMeta.path,
+  keywords: [...pageMeta.keywords],
+});
 
 export default async function Home() {
   // Read Vercel timezone header (or default to Riyadh time / local server time)
   const headersList = await headers();
   const timezone = headersList.get('x-vercel-ip-timezone') || 'Asia/Riyadh';
-  console.log('timezone', timezone)
 
   let hour = new Date().getHours();
   try {
@@ -18,8 +30,6 @@ export default async function Home() {
       hour12: false,
     });
     hour = parseInt(formatter.format(new Date()), 10);
-
-
   } catch (error) {
     console.error('Failed to parse timezone, falling back to server time:', error);
   }
@@ -27,11 +37,11 @@ export default async function Home() {
   // Heuristic for time context
   let timeContext: 'morning' | 'evening' | 'night' | 'general' = 'general';
   if (hour >= 4 && hour < 11) {
-    timeContext = 'morning'; // Post-Fajr to Dhuhr
+    timeContext = 'morning';
   } else if (hour >= 15 && hour < 20) {
-    timeContext = 'evening'; // Asr to Maghrib/Isha
+    timeContext = 'evening';
   } else if (hour >= 20 || hour < 4) {
-    timeContext = 'night'; // Isha to Fajr
+    timeContext = 'night';
   }
 
   const sections = [
@@ -64,26 +74,56 @@ export default async function Home() {
     return 0;
   });
 
+  const webPageSchema = buildWebPageSchema({
+    title: pageMeta.title,
+    description: pageMeta.description,
+    path: '/',
+  });
+
   return (
     <div className="animate-fade-in">
+      {/* JSON-LD Structured Data */}
+      <JsonLd schema={webPageSchema} />
+
+      {/* SEO h1 — visually integrated as a subtitle */}
+      <h1
+        style={{
+          fontSize: '0.95rem',
+          color: 'var(--text-muted)',
+          fontWeight: 400,
+          textAlign: 'center',
+          marginBottom: '16px',
+          opacity: 0.8,
+        }}
+      >
+        أذكار الصباح والمساء والنوم · مسبحة إلكترونية · حصن المسلم · صدقة جارية
+      </h1>
+
       {/* Context Banner */}
       {recommendation && (
         <Link href={recommendation.path} style={{ textDecoration: 'none' }}>
-          <div className="context-banner glass" style={{
-            marginBottom: '20px',
-            padding: '14px 20px',
-            borderRadius: '15px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            color: 'var(--primary)',
-            fontWeight: 'bold',
-            cursor: 'pointer',
-            transition: 'transform 0.2s ease',
-          }}>
-            <span style={{ fontSize: '1.4rem' }}>{recommendation.icon}</span>
+          <div
+            className="context-banner glass"
+            style={{
+              marginBottom: '20px',
+              padding: '14px 20px',
+              borderRadius: '15px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px',
+              color: 'var(--primary)',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              transition: 'transform 0.2s ease',
+            }}
+          >
+            <span style={{ fontSize: '1.4rem' }} aria-hidden="true">
+              {recommendation.icon}
+            </span>
             <span>{recommendation.title}</span>
-            <span style={{ marginRight: 'auto', fontSize: '0.8rem', opacity: 0.7 }}>ابدأ ←</span>
+            <span style={{ marginRight: 'auto', fontSize: '0.8rem', opacity: 0.7 }}>
+              ابدأ ←
+            </span>
           </div>
         </Link>
       )}
@@ -91,19 +131,25 @@ export default async function Home() {
       {/* Streak Dashboard */}
       <StreakDashboard />
 
-      {/* Navigation Grid */}
-      <div className="nav-grid">
-        {sortedSections.map((section) => (
-          <Link
-            key={section.id}
-            href={section.path}
-            className={`nav-card glass ${recommendation && section.path === recommendation.path ? 'recommended-card' : ''}`}
-          >
-            <span className="nav-icon">{section.icon}</span>
-            <h2 className="nav-title">{section.title}</h2>
-          </Link>
-        ))}
-      </div>
+      {/* Navigation Grid — landmark for screen readers */}
+      <nav aria-label="أقسام التطبيق">
+        <div className="nav-grid">
+          {sortedSections.map((section) => (
+            <Link
+              key={section.id}
+              href={section.path}
+              className={`nav-card glass ${recommendation && section.path === recommendation.path ? 'recommended-card' : ''}`}
+              aria-label={section.title}
+            >
+              <span className="nav-icon" aria-hidden="true">
+                {section.icon}
+              </span>
+              <h2 className="nav-title">{section.title}</h2>
+            </Link>
+          ))}
+        </div>
+      </nav>
     </div>
   );
 }
+

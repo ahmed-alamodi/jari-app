@@ -1,77 +1,83 @@
 import { MetadataRoute } from 'next';
 import categories from '../data/categories.json';
 
-const BASE_URL = 'https://jari-app.vercel.app';
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://jari-app.vercel.app';
+
+// Build timestamp for lastModified (use build time for consistency)
+const BUILD_DATE = new Date();
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticPages = [
+  // ─── Static High-Priority Pages ────────────────────────────────────────────
+  const staticPages: MetadataRoute.Sitemap = [
     {
       url: BASE_URL,
-      lastModified: new Date(),
-      changeFrequency: 'daily' as const,
+      lastModified: BUILD_DATE,
+      changeFrequency: 'daily',
       priority: 1.0,
     },
     {
-      url: `${BASE_URL}/adhkar`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.8,
-    },
-    {
       url: `${BASE_URL}/morning`,
-      lastModified: new Date(),
-      changeFrequency: 'daily' as const,
-      priority: 0.9,
+      lastModified: BUILD_DATE,
+      changeFrequency: 'daily',
+      priority: 0.95,
     },
     {
       url: `${BASE_URL}/evening`,
-      lastModified: new Date(),
-      changeFrequency: 'daily' as const,
-      priority: 0.9,
+      lastModified: BUILD_DATE,
+      changeFrequency: 'daily',
+      priority: 0.95,
     },
     {
       url: `${BASE_URL}/sleep`,
-      lastModified: new Date(),
-      changeFrequency: 'daily' as const,
+      lastModified: BUILD_DATE,
+      changeFrequency: 'daily',
       priority: 0.9,
     },
     {
+      url: `${BASE_URL}/adhkar`,
+      lastModified: BUILD_DATE,
+      changeFrequency: 'weekly',
+      priority: 0.85,
+    },
+    {
       url: `${BASE_URL}/tasbeeh`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.7,
+      lastModified: BUILD_DATE,
+      changeFrequency: 'weekly',
+      priority: 0.8,
     },
     {
       url: `${BASE_URL}/arafah`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.7,
+      lastModified: BUILD_DATE,
+      changeFrequency: 'monthly',
+      priority: 0.75,
     },
     {
       url: `${BASE_URL}/last-ten`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.7,
+      lastModified: BUILD_DATE,
+      changeFrequency: 'monthly',
+      priority: 0.75,
     },
     {
       url: `${BASE_URL}/comprehensive`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
+      lastModified: BUILD_DATE,
+      changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
       url: `${BASE_URL}/sunnah`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
+      lastModified: BUILD_DATE,
+      changeFrequency: 'monthly',
       priority: 0.7,
     },
+    // Note: /settings is excluded — noIndex page
   ];
 
-  const dynamicPages = categories.map((cat) => ({
+  // ─── Dynamic Category Pages (133 Hisn al-Muslim categories) ───────────────
+  const dynamicPages: MetadataRoute.Sitemap = categories.map((cat) => ({
     url: `${BASE_URL}/adhkar/${cat.slug}`,
-    lastModified: new Date(),
+    lastModified: BUILD_DATE,
     changeFrequency: 'weekly' as const,
-    priority: 0.6,
+    priority: 0.65,
   }));
 
   return [...staticPages, ...dynamicPages];

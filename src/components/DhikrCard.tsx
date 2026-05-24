@@ -68,19 +68,22 @@ export default function DhikrCard({ dhikr }: DhikrCardProps) {
 
   const progressPercentage = (count / dhikr.count) * 100;
   const isCompleted = count >= dhikr.count;
+  const remaining = dhikr.count - count;
 
   return (
-    <div 
+    <article
       className={`card glass dhikr-card animate-fade-in ${isCompleted ? 'completed' : ''}`}
       onClick={handleClick}
       style={{ cursor: isCompleted ? 'default' : 'pointer', opacity: isCompleted ? 0.7 : 1 }}
+      aria-label={`ذكر: ${dhikr.text.slice(0, 40)}${dhikr.text.length > 40 ? '...' : ''} — ${isCompleted ? 'مكتمل' : `المتبقي ${remaining} من ${dhikr.count}`}`}
+      role="article"
     >
-      <div className="dhikr-text arabic-text">{dhikr.text}</div>
+      <div className="dhikr-text arabic-text" lang="ar">{dhikr.text}</div>
       {dhikr.info && <div className="dhikr-info">{dhikr.info}</div>}
-      
+
       <div className="dhikr-actions" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: '10px' }}>
         {dhikr.audioUrl ? (
-          <button 
+          <button
             onClick={togglePlay}
             style={{
               background: 'rgba(16, 185, 129, 0.1)',
@@ -95,22 +98,41 @@ export default function DhikrCard({ dhikr }: DhikrCardProps) {
               cursor: 'pointer',
               transition: 'all 0.2s',
             }}
-            title={playing ? "إيقاف مؤقت" : "تشغيل الصوت"}
+            aria-label={playing ? 'إيقاف الصوت' : 'تشغيل الصوت'}
+            title={playing ? 'إيقاف مؤقت' : 'تشغيل الصوت'}
           >
             {playing ? <Pause size={14} /> : <Play size={14} />}
           </button>
         ) : <div />}
-        <div className="count-badge">
+        {/* Counter: aria-live announces changes to screen readers */}
+        <div
+          className="count-badge"
+          aria-live="polite"
+          aria-atomic="true"
+          aria-label={`العداد: ${count} من أصل ${dhikr.count}`}
+        >
           {count} / {dhikr.count}
         </div>
       </div>
 
-      <div className="dhikr-progress">
-        <div 
-          className="dhikr-progress-bar" 
-          style={{ width: `${progressPercentage}%`, background: isCompleted ? '#34d399' : 'var(--primary)' }}
+      {/* Progress bar with ARIA value attributes */}
+      <div
+        className="dhikr-progress"
+        role="progressbar"
+        aria-valuenow={count}
+        aria-valuemin={0}
+        aria-valuemax={dhikr.count}
+        aria-label={`تقدم الذكر: ${Math.round(progressPercentage)}%`}
+      >
+        <div
+          className="dhikr-progress-bar"
+          style={{
+            width: `${progressPercentage}%`,
+            background: isCompleted ? '#34d399' : 'var(--primary)',
+          }}
         />
       </div>
-    </div>
+    </article>
   );
 }
+

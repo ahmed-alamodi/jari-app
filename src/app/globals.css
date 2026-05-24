@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;800&display=swap');
+/* Fonts are loaded via next/font/google in layout.tsx (no @import needed here)
+ * CSS variables --font-tajawal and --font-amiri are injected by Next.js automatically. */
 
 :root {
   --primary: #10b981; /* Emerald green */
@@ -37,18 +38,25 @@
 }
 
 body {
-  font-family: 'Tajawal', sans-serif;
+  /* Use CSS variable injected by next/font/google for Tajawal */
+  font-family: var(--font-tajawal), 'Tajawal', system-ui, sans-serif;
   background-color: var(--bg-color);
   color: var(--text-main);
   transition: background-color 0.3s ease, color 0.3s ease;
   min-height: 100vh;
   direction: rtl;
   overflow-x: hidden;
+  /* Improve text rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 .arabic-text {
-  font-family: 'Amiri', serif;
-  line-height: 1.8;
+  /* Use CSS variable injected by next/font/google for Amiri */
+  font-family: var(--font-amiri), 'Amiri', Georgia, serif;
+  line-height: 1.9;
+  font-size: 1.05em;
 }
 
 /* Glassmorphism utility */
@@ -846,3 +854,86 @@ button {
     gap: 2px;
   }
 }
+
+/* ========================= */
+/* Accessibility              */
+/* ========================= */
+
+/* Skip to main content link (visually hidden until focused) */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  right: 0;
+  background: var(--primary);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 0 0 12px 12px;
+  font-weight: 700;
+  z-index: 9999;
+  text-decoration: none;
+  transition: top 0.2s ease;
+  direction: rtl;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Focus-visible ring — applied only for keyboard navigation */
+*:focus {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Interactive elements need a minimum touch/click target of 44×44px (WCAG 2.5.5) */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+/* Reduced Motion — respect user's OS preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-fade-in {
+    animation: none;
+    opacity: 1;
+  }
+
+  .dhikr-progress-bar {
+    transition: none;
+  }
+}
+
+/* High Contrast Mode support */
+@media (forced-colors: active) {
+  .glass {
+    border: 1px solid ButtonText;
+  }
+
+  .btn-primary,
+  .tab-btn.active {
+    forced-color-adjust: none;
+    background: Highlight;
+    color: HighlightText;
+  }
+}
+
+/* Breadcrumb hover (CSS instead of JS handlers for Server Component compatibility) */
+.breadcrumb-link:hover {
+  color: var(--primary) !important;
+}
+

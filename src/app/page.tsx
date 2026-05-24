@@ -1,11 +1,38 @@
-"use client";
-
 import Link from 'next/link';
-import { useTimeContext } from '../hooks/useTimeContext';
+import { headers } from 'next/headers';
 import StreakDashboard from '../components/StreakDashboard';
 
-export default function Home() {
-  const timeContext = useTimeContext();
+export const dynamic = 'force-dynamic';
+
+export default async function Home() {
+  // Read Vercel timezone header (or default to Riyadh time / local server time)
+  const headersList = await headers();
+  const timezone = headersList.get('x-vercel-ip-timezone') || 'Asia/Riyadh';
+  console.log('timezone', timezone)
+
+  let hour = new Date().getHours();
+  try {
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: timezone,
+      hour: 'numeric',
+      hour12: false,
+    });
+    hour = parseInt(formatter.format(new Date()), 10);
+
+
+  } catch (error) {
+    console.error('Failed to parse timezone, falling back to server time:', error);
+  }
+
+  // Heuristic for time context
+  let timeContext: 'morning' | 'evening' | 'night' | 'general' = 'general';
+  if (hour >= 4 && hour < 11) {
+    timeContext = 'morning'; // Post-Fajr to Dhuhr
+  } else if (hour >= 15 && hour < 20) {
+    timeContext = 'evening'; // Asr to Maghrib/Isha
+  } else if (hour >= 20 || hour < 4) {
+    timeContext = 'night'; // Isha to Fajr
+  }
 
   const sections = [
     { id: 'morning', title: 'أذكار الصباح', path: '/morning', icon: '🌅' },

@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'ar_SA',
-    url: 'https://jari.vercel.app', // Update with actual domain later
+    url: 'https://jari-app.vercel.app', // Update with actual domain later
     siteName: 'جاري',
     title: 'جاري | صدقة جارية وأذكار',
     description: 'تطبيق جاري للأذكار والمسبحة، صدقة جارية تحتوي على أذكار الصباح والمساء ومسبحة إلكترونية بتصميم مريح للعين.',

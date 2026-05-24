@@ -1,66 +1,80 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
+
+import Link from 'next/link';
+import { useTimeContext } from '../hooks/useTimeContext';
+import StreakDashboard from '../components/StreakDashboard';
 
 export default function Home() {
+  const timeContext = useTimeContext();
+
+  const sections = [
+    { id: 'morning', title: 'أذكار الصباح', path: '/morning', icon: '🌅' },
+    { id: 'evening', title: 'أذكار المساء', path: '/evening', icon: '🌇' },
+    { id: 'tasbeeh', title: 'المسبحة', path: '/tasbeeh', icon: '📿' },
+    { id: 'arafah', title: 'أدعية يوم عرفة', path: '/arafah', icon: '🤲' },
+    { id: 'last-ten', title: 'أدعية ليالي العشر', path: '/last-ten', icon: '🌙' },
+    { id: 'comprehensive', title: 'جوامع الدعاء', path: '/comprehensive', icon: '📖' },
+    { id: 'sunnah', title: 'سنة نبوية', path: '/sunnah', icon: '🕌' },
+    { id: 'settings', title: 'الإعدادات', path: '/settings', icon: '⚙️' },
+  ];
+
+  let recommendation = null;
+  if (timeContext === 'morning') {
+    recommendation = { title: 'وقت أذكار الصباح', path: '/morning', icon: '🌅' };
+  } else if (timeContext === 'evening') {
+    recommendation = { title: 'وقت أذكار المساء', path: '/evening', icon: '🌇' };
+  } else if (timeContext === 'night') {
+    recommendation = { title: 'خلوة الليل - المسبحة', path: '/tasbeeh', icon: '📿' };
+  }
+
+  const sortedSections = [...sections].sort((a, b) => {
+    if (a.id === 'settings') return 1;
+    if (b.id === 'settings') return -1;
+    if (recommendation && a.path === recommendation.path) return -1;
+    if (recommendation && b.path === recommendation.path) return 1;
+    return 0;
+  });
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="animate-fade-in">
+      {/* Context Banner */}
+      {recommendation && (
+        <Link href={recommendation.path} style={{ textDecoration: 'none' }}>
+          <div className="context-banner glass" style={{
+            marginBottom: '20px',
+            padding: '14px 20px',
+            borderRadius: '15px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            color: 'var(--primary)',
+            fontWeight: 'bold',
+            cursor: 'pointer',
+            transition: 'transform 0.2s ease',
+          }}>
+            <span style={{ fontSize: '1.4rem' }}>{recommendation.icon}</span>
+            <span>{recommendation.title}</span>
+            <span style={{ marginRight: 'auto', fontSize: '0.8rem', opacity: 0.7 }}>ابدأ ←</span>
+          </div>
+        </Link>
+      )}
+
+      {/* Streak Dashboard */}
+      <StreakDashboard />
+
+      {/* Navigation Grid */}
+      <div className="nav-grid">
+        {sortedSections.map((section) => (
+          <Link
+            key={section.id}
+            href={section.path}
+            className={`nav-card glass ${recommendation && section.path === recommendation.path ? 'recommended-card' : ''}`}
           >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+            <span className="nav-icon">{section.icon}</span>
+            <h2 className="nav-title">{section.title}</h2>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }

@@ -58,7 +58,7 @@ export default function JariLogo({
 
         {/* Crescent moon representing worship and guidance */}
         <path
-          d="M 70 20 A 20 20 0 1 0 70 60 A 17 17 0 1 1 70 20 Z"
+          d="M 70 20 A 20 20 0 1 0 70 60 A 22 22 0 0 1 70 20 Z"
           fill={`url(#${goldId})`}
         />
 

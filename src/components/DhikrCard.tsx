@@ -1,11 +1,13 @@
 "use client";
 
+import { useState, useEffect } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Dhikr } from '../data/adhkar';
 import { db } from '../lib/db';
+import { Play, Pause } from 'lucide-react';
 
 interface DhikrCardProps {
-  dhikr: Dhikr;
+  dhikr: Dhikr & { audioUrl?: string };
 }
 
 export default function DhikrCard({ dhikr }: DhikrCardProps) {
@@ -18,6 +20,39 @@ export default function DhikrCard({ dhikr }: DhikrCardProps) {
   );
 
   const count = progress?.countCompleted || 0;
+  
+  const [playing, setPlaying] = useState(false);
+  const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (audio) {
+        audio.pause();
+      }
+    };
+  }, [audio]);
+
+  const togglePlay = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!dhikr.audioUrl) return;
+
+    if (playing && audio) {
+      audio.pause();
+      setPlaying(false);
+    } else {
+      if (audio) {
+        audio.play().catch(err => console.error("Audio play failed:", err));
+        setPlaying(true);
+      } else {
+        const newAudio = new Audio(dhikr.audioUrl);
+        newAudio.play().catch(err => console.error("Audio play failed:", err));
+        setPlaying(true);
+        newAudio.onended = () => setPlaying(false);
+        newAudio.onerror = () => setPlaying(false);
+        setAudio(newAudio);
+      }
+    }
+  };
 
   const handleClick = async () => {
     if (count < dhikr.count) {
@@ -43,7 +78,28 @@ export default function DhikrCard({ dhikr }: DhikrCardProps) {
       <div className="dhikr-text arabic-text">{dhikr.text}</div>
       {dhikr.info && <div className="dhikr-info">{dhikr.info}</div>}
       
-      <div className="dhikr-actions">
+      <div className="dhikr-actions" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', marginTop: '10px' }}>
+        {dhikr.audioUrl ? (
+          <button 
+            onClick={togglePlay}
+            style={{
+              background: 'rgba(16, 185, 129, 0.1)',
+              border: 'none',
+              borderRadius: '50%',
+              width: '32px',
+              height: '32px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'var(--primary)',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+            }}
+            title={playing ? "إيقاف مؤقت" : "تشغيل الصوت"}
+          >
+            {playing ? <Pause size={14} /> : <Play size={14} />}
+          </button>
+        ) : <div />}
         <div className="count-badge">
           {count} / {dhikr.count}
         </div>

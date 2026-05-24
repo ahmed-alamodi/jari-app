@@ -16,6 +16,7 @@ export interface Streak {
   date: string; // YYYY-MM-DD
   completedMorning: boolean;
   completedEvening: boolean;
+  completedSleep?: boolean;
   tasbeehCount: number;
 }
 

@@ -5,7 +5,7 @@ import { db } from '../lib/db';
 import { CheckCircle } from 'lucide-react';
 
 interface Props {
-  type: 'morning' | 'evening';
+  type: 'morning' | 'evening' | 'sleep';
 }
 
 export default function SessionComplete({ type }: Props) {
@@ -13,20 +13,28 @@ export default function SessionComplete({ type }: Props) {
 
   const streak = useLiveQuery(() => db.streaks.get(today), [today]);
 
-  const isCompleted = type === 'morning' ? streak?.completedMorning : streak?.completedEvening;
+  const isCompleted = 
+    type === 'morning' 
+      ? streak?.completedMorning 
+      : type === 'evening' 
+      ? streak?.completedEvening 
+      : streak?.completedSleep;
 
   const handleComplete = async () => {
     const currentStreak = await db.streaks.get(today) || {
       date: today,
       completedMorning: false,
       completedEvening: false,
+      completedSleep: false,
       tasbeehCount: 0
     };
 
     if (type === 'morning') {
       currentStreak.completedMorning = true;
-    } else {
+    } else if (type === 'evening') {
       currentStreak.completedEvening = true;
+    } else if (type === 'sleep') {
+      currentStreak.completedSleep = true;
     }
 
     await db.streaks.put(currentStreak);
@@ -36,7 +44,7 @@ export default function SessionComplete({ type }: Props) {
     return (
       <div style={{ textAlign: 'center', marginTop: '30px', color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
         <CheckCircle size={24} />
-        <span style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>تم إنجاز أذكار {type === 'morning' ? 'الصباح' : 'المساء'} بنجاح</span>
+        <span style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>تم إنجاز أذكار {type === 'morning' ? 'الصباح' : type === 'evening' ? 'المساء' : 'النوم'} بنجاح</span>
       </div>
     );
   }

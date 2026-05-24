@@ -10,6 +10,8 @@ export default function Home() {
   const sections = [
     { id: 'morning', title: 'أذكار الصباح', path: '/morning', icon: '🌅' },
     { id: 'evening', title: 'أذكار المساء', path: '/evening', icon: '🌇' },
+    { id: 'sleep', title: 'أذكار النوم', path: '/sleep', icon: '🛌' },
+    { id: 'index', title: 'فهرس حصن المسلم', path: '/adhkar', icon: '📚' },
     { id: 'tasbeeh', title: 'المسبحة', path: '/tasbeeh', icon: '📿' },
     { id: 'arafah', title: 'أدعية يوم عرفة', path: '/arafah', icon: '🤲' },
     { id: 'last-ten', title: 'أدعية ليالي العشر', path: '/last-ten', icon: '🌙' },
@@ -24,7 +26,7 @@ export default function Home() {
   } else if (timeContext === 'evening') {
     recommendation = { title: 'وقت أذكار المساء', path: '/evening', icon: '🌇' };
   } else if (timeContext === 'night') {
-    recommendation = { title: 'خلوة الليل - المسبحة', path: '/tasbeeh', icon: '📿' };
+    recommendation = { title: 'وقت أذكار النوم', path: '/sleep', icon: '🛌' };
   }
 
   const sortedSections = [...sections].sort((a, b) => {

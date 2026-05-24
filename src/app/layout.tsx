@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import { Analytics } from "@vercel/analytics/next"
 import './globals.css';
 
 export const viewport: Viewport = {
@@ -49,11 +50,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ar" dir="rtl" suppressHydrationWarning>
-      <body>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
+    <>
+      <html lang="ar" dir="rtl" suppressHydrationWarning>
+        <body>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
               (function() {
                 try {
                   var savedTheme = localStorage.getItem('theme');
@@ -64,17 +66,19 @@ export default function RootLayout({
                 } catch (e) {}
               })();
             `,
-          }}
-        />
-        <ClientProvider>
-          <div className="container">
-            <ThemeHeader />
-            <main className="main-content">
-              {children}
-            </main>
-          </div>
-        </ClientProvider>
-      </body>
-    </html>
+            }}
+          />
+          <ClientProvider>
+            <div className="container">
+              <ThemeHeader />
+              <main className="main-content">
+                {children}
+              </main>
+            </div>
+          </ClientProvider>
+        </body>
+      </html>
+      <Analytics />
+    </>
   );
 }

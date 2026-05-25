@@ -78,7 +78,7 @@ export default function ArafahPage() {
         </p>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <a
-            href="/files/arafah-prayers.pdf"
+            href="/files/أدعية لـ يوم عرفة🤍🕋.pdf"
             download
             className="btn-download"
             aria-label="تحميل كتاب أدعية عرفة بصيغة PDF"

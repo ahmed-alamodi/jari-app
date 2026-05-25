@@ -23,6 +23,11 @@ export default function JariLogo({
   const gradId = priority ? 'jariGrad-priority' : 'jariGrad';
   const goldId = priority ? 'goldGrad-priority' : 'goldGrad';
 
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <div
       className={className}
@@ -58,7 +63,7 @@ export default function JariLogo({
 
         {/* Crescent moon representing worship and guidance */}
         <path
-          d="M 70 20 A 20 20 0 1 0 70 60 A 22 22 0 0 1 70 20 Z"
+          d={mounted ? "M 70 20 A 20 20 0 1 0 70 60 A 22 22 0 0 1 70 20 Z" : "M 70 20 A 20 20 0 1 0 70 60 A 17 17 0 1 1 70 20 Z"}
           fill={`url(#${goldId})`}
         />
 

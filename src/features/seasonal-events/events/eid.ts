@@ -3,9 +3,9 @@ import { SeasonalEvent } from '../types';
 export const eidEvents: SeasonalEvent[] = [
   {
     id: 'eid-fitr',
-    title: 'عيد الفطر السعيد 🎉',
+    title: 'عيد الفطر السعيد',
     description: 'تقبل الله منا ومنكم صالح الأعمال وغفر لنا ولكم. عيدكم مبارك وكل عام وأنتم بخير!',
-    ctaText: 'سنن وتكبيرات العيد 🕌',
+    ctaText: 'سنن وتكبيرات العيد',
     route: '/sunnah',
     scheduleType: 'hijri',
     hijriMonth: 10, // Shawwal
@@ -28,9 +28,9 @@ export const eidEvents: SeasonalEvent[] = [
   },
   {
     id: 'eid-adha',
-    title: 'عيد الأضحى المبارك 🕋',
+    title: 'عيد الأضحى المبارك',
     description: 'أيام مباركة وهي أيام أكل وشرب وذكر لله عز وجل. تقبل الله طاعاتكم وضاحيكم.',
-    ctaText: 'سنن وتكبيرات العيد 🐑',
+    ctaText: 'سنن وتكبيرات العيد',
     route: '/sunnah',
     scheduleType: 'hijri',
     hijriMonth: 12, // Dhul-Hijjah

@@ -3,9 +3,9 @@ import { SeasonalEvent } from '../types';
 export const ramadanEvents: SeasonalEvent[] = [
   {
     id: 'ramadan',
-    title: 'شهر رمضان المبارك 🌙',
+    title: 'شهر رمضان المبارك',
     description: 'شهر الصيام والقيام وتلاوة القرآن. تقبل الله طاعاتكم وضاعف أجوركم.',
-    ctaText: 'أدعية وأذكار رمضان 📖',
+    ctaText: 'أدعية وأذكار رمضان',
     route: '/comprehensive',
     scheduleType: 'hijri',
     hijriMonth: 9, // Ramadan
@@ -30,7 +30,7 @@ export const ramadanEvents: SeasonalEvent[] = [
     id: 'ramadan-last-ten',
     title: 'العشر الأواخر من رمضان',
     description: 'ليالي العتق من النيران والتقرب للرحمن. فيها ليلة القدر خير من ألف شهر.',
-    ctaText: 'أدعية ليالي العشر الأواخر 🌙',
+    ctaText: 'أدعية ليالي العشر الأواخر',
     route: '/last-ten',
     scheduleType: 'hijri',
     hijriMonth: 9, // Ramadan

@@ -78,13 +78,14 @@ export default function ArafahPage() {
         </p>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <a
-            href="/files/أدعية لـ يوم عرفة🤍🕋.pdf"
-            download
+            href="https://drive.google.com/file/d/1O7DOc3b8fS75vD1vhlYAbCAYOAb6nc-j/view?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
             className="btn-download"
-            aria-label="تحميل كتاب أدعية عرفة بصيغة PDF"
+            aria-label="عرض وتحميل كتاب أدعية عرفة بصيغة PDF من Google Drive"
           >
             <Download size={20} aria-hidden="true" />
-            تحميل كتاب الأدعية (PDF)
+            عرض وتحميل كتاب الأدعية (PDF)
           </a>
         </div>
       </div>

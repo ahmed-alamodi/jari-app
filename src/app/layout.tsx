@@ -9,6 +9,7 @@ import ResourceHints from '../components/seo/ResourceHints';
 import ThemeHeader from '../components/ThemeHeader';
 import ClientProvider from '../components/ClientProvider';
 import WebVitals from '../components/analytics/WebVitals';
+import SeasonalBanner from '../features/seasonal-events/components/SeasonalBanner';
 
 // ─── Font Optimization ────────────────────────────────────────────────────────
 // Using next/font/google instead of CSS @import eliminates render-blocking
@@ -183,6 +184,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ClientProvider>
             <div className="container">
               <ThemeHeader />
+              <SeasonalBanner />
               <main className="main-content" id="main-content">
                 {children}
               </main>

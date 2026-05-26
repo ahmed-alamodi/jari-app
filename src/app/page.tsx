@@ -47,10 +47,10 @@ export default async function Home() {
   const sections = [
     { id: 'morning', title: 'أذكار الصباح', path: '/morning', icon: '🌅' },
     { id: 'evening', title: 'أذكار المساء', path: '/evening', icon: '🌇' },
+    { id: 'arafah', title: 'أدعية يوم عرفة', path: '/arafah', icon: '🤲' },
     { id: 'sleep', title: 'أذكار النوم', path: '/sleep', icon: '🛌' },
     { id: 'index', title: 'فهرس حصن المسلم', path: '/adhkar', icon: '📚' },
     { id: 'tasbeeh', title: 'المسبحة', path: '/tasbeeh', icon: '📿' },
-    { id: 'arafah', title: 'أدعية يوم عرفة', path: '/arafah', icon: '🤲' },
     { id: 'last-ten', title: 'أدعية ليالي العشر', path: '/last-ten', icon: '🌙' },
     { id: 'comprehensive', title: 'جوامع الدعاء', path: '/comprehensive', icon: '📖' },
     { id: 'sunnah', title: 'سنة نبوية', path: '/sunnah', icon: '🕌' },

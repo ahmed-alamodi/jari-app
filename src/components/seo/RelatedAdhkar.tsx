@@ -34,6 +34,12 @@ const ALL_SECTIONS: RelatedSection[] = [
     description: 'أذكار ما بعد العصر',
   },
   {
+    title: 'أدعية يوم عرفة',
+    path: '/arafah',
+    icon: '🤲',
+    description: 'أفضل أدعية عرفة',
+  },
+  {
     title: 'أذكار النوم',
     path: '/sleep',
     icon: '🛌',
@@ -50,12 +56,6 @@ const ALL_SECTIONS: RelatedSection[] = [
     path: '/tasbeeh',
     icon: '📿',
     description: 'عداد التسبيح الذكي',
-  },
-  {
-    title: 'أدعية يوم عرفة',
-    path: '/arafah',
-    icon: '🤲',
-    description: 'أفضل أدعية عرفة',
   },
   {
     title: 'جوامع الدعاء',

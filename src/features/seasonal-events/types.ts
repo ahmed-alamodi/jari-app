@@ -20,6 +20,8 @@ export interface SeasonalEvent {
   hijriDayStart?: number;    // Start day of the event
   hijriDayEnd?: number;      // End day of the event (inclusive, for multi-day events)
   hijriDays?: number[];      // Specific Hijri days (e.g. [13, 14, 15] for White Days)
+  excludeHijriMonths?: number[]; // Hijri months to exclude entirely from the event
+  excludeHijriDays?: { [month: number]: number[] }; // Specific Hijri days to exclude per Hijri month
 
   // Gregorian scheduling
   gregorianMonth?: number;   // 1 = Jan, ..., 12 = Dec

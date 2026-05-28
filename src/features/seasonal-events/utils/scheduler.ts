@@ -24,6 +24,17 @@ export function isEventActive(event: SeasonalEvent, date: Date = new Date()): bo
   switch (event.scheduleType) {
     case 'hijri': {
       const hijri = getHijriDate(date);
+      
+      if (event.excludeHijriMonths !== undefined && event.excludeHijriMonths.includes(hijri.month)) {
+        return false;
+      }
+
+      if (event.excludeHijriDays !== undefined && event.excludeHijriDays[hijri.month] !== undefined) {
+        if (event.excludeHijriDays[hijri.month].includes(hijri.day)) {
+          return false;
+        }
+      }
+
       if (event.hijriMonth !== undefined && event.hijriMonth !== hijri.month) {
         return false;
       }

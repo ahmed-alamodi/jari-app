@@ -1,0 +1,35 @@
+# Jari App - Enterprise-Grade Islamic Lifestyle Application
+
+Jari App is a Next.js App Router application optimized for maximum SEO, strict Static Site Generation (SSG), and performance. It features daily Adhkar, dynamic seasonal events, interactive counters, and deep schema.org structured data.
+
+## Core Architectural Rules for LLMs
+
+When generating code, modifying pages, or extending components in this project, you MUST strictly follow these rules:
+
+1. **Strict Static-First**:
+   - Every page route in `src/app/` must explicitly declare `export const dynamic = 'force-static'`.
+   - Never use dynamic server functions like `cookies()` or `headers()` inside Server Components.
+   - Defer all runtime browser checking (e.g., `localStorage`, local timezone, time-of-day greetings) to client components inside a `useEffect` after mount.
+
+2. **Hydration Safety**:
+   - Pre-render generic placeholder HTML on the server.
+   - Upgrade to user-specific local times or settings client-side only when `mounted === true` to avoid hydration mismatches.
+
+3. **Structured Data & SEO**:
+   - Always embed JSON-LD structured data using the type-safe `<JsonLd>` component.
+   - Ensure all page headers are populated using the centralized metadata helper `generatePageMetadata`.
+
+4. **Semantic HTML**:
+   - Use semantic HTML5 layout tags (`<article>`, `<section>`, `<nav>`, `<aside>`) instead of nested generic `div`s.
+
+## Directory Map
+
+- `/src/app/` - Static route page definitions.
+- `/src/components/` - Client and server components.
+  - `HomeClient.tsx` - Core client-side homepage controller (time greeting, section sorting).
+  - `StreakDashboard.tsx` - Daily spiritual tracking dashboard using Dexie IndexedDB.
+- `/src/features/seasonal-events/` - Seasonal spiritual notifications engine:
+  - `events/` - Configs for Ramadan, Friday, Eid, Ashura, Ayam al-Beed, and fasting reminders.
+  - `utils/scheduler.ts` - Logic determining active notifications based on Hijri and Gregorian systems.
+- `/src/lib/seo/` - Centralized SEO, Canonical URL, Robots, and Schema.org builders.
+- `/public/` - Public assets, service workers (`sw.js`), and manifest configuration.

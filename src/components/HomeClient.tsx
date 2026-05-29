@@ -21,7 +21,7 @@ const SECTIONS: Section[] = [
   { id: 'tasbeeh', title: 'المسبحة', path: '/tasbeeh', icon: '📿' },
   { id: 'last-ten', title: 'أدعية ليالي العشر', path: '/last-ten', icon: '🌙' },
   { id: 'comprehensive', title: 'جوامع الدعاء', path: '/comprehensive', icon: '📖' },
-  { id: 'sunnah', title: 'سنة نبوية', path: '/sunnah', icon: '🕌' },
+  { id: 'sunnah', title: 'سنن الجمعة وأذكارها', path: '/sunnah', icon: '🕌' },
   { id: 'settings', title: 'الإعدادات', path: '/settings', icon: '⚙️' },
 ];
 

@@ -10,6 +10,8 @@ import { generatePageMetadata } from '../../lib/seo/metadata';
 import { buildAdhkarPageSchemas } from '../../lib/seo/schema';
 import { PAGE_META } from '../../lib/seo/config';
 
+export const dynamic = 'force-static';
+
 const pageMeta = PAGE_META.morning;
 
 export const metadata = generatePageMetadata({

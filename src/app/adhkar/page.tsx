@@ -6,6 +6,8 @@ import { buildWebPageSchema, buildBreadcrumbSchema, buildItemListSchema } from '
 import { PAGE_META } from '../../lib/seo/config';
 import categories from '../../data/categories.json';
 
+export const dynamic = 'force-static';
+
 const pageMeta = PAGE_META.adhkar;
 
 export const metadata = generatePageMetadata({

@@ -1,6 +1,8 @@
 import type { MetadataRoute } from 'next';
 import { SEO_CONFIG } from '../lib/seo/config';
 
+export const dynamic = 'force-static';
+
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: SEO_CONFIG.pwa.name,

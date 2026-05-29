@@ -1,6 +1,8 @@
 import { MetadataRoute } from 'next';
 import categories from '../data/categories.json';
 
+export const dynamic = 'force-static';
+
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://jari-app.vercel.app';
 
 // Build timestamp for lastModified (use build time for consistency)

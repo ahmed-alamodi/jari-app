@@ -7,6 +7,8 @@ import { generatePageMetadata } from '../../lib/seo/metadata';
 import { buildWebPageSchema, buildBreadcrumbSchema, buildFAQSchema } from '../../lib/seo/schema';
 import { PAGE_META } from '../../lib/seo/config';
 
+export const dynamic = 'force-static';
+
 const pageMeta = PAGE_META.comprehensive;
 
 export const metadata = generatePageMetadata({

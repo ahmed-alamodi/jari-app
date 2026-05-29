@@ -6,6 +6,8 @@ import { generateAdhkarMetadata } from '../../../lib/seo/metadata';
 import { buildAdhkarPageSchemas, buildFAQSchema } from '../../../lib/seo/schema';
 import categories from '../../../data/categories.json';
 
+export const dynamic = 'force-static';
+
 interface PageProps {
   params: Promise<{ slug: string }>;
 }

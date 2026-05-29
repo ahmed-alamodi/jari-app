@@ -2,6 +2,8 @@ import SettingsClient from '../../components/SettingsClient';
 import { generatePageMetadata } from '../../lib/seo/metadata';
 import { PAGE_META } from '../../lib/seo/config';
 
+export const dynamic = 'force-static';
+
 const pageMeta = PAGE_META.settings;
 
 // Settings page should NOT be indexed by search engines

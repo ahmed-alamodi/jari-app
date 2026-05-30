@@ -64,7 +64,7 @@ const ALL_SECTIONS: RelatedSection[] = [
     description: 'الأدعية الجامعة',
   },
   {
-    title: 'سنة نبوية',
+    title: 'سنن الجمعة وأذكارها',
     path: '/sunnah',
     icon: '🕌',
     description: 'سنن مأثورة',

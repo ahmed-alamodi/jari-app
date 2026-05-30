@@ -1,6 +1,6 @@
 import JsonLd from '../../components/seo/JsonLd';
 import Breadcrumb from '../../components/seo/Breadcrumb';
-import AdhkarIndexClient from '../../components/AdhkarIndexClient';
+import AdhkarIndexClient from '../../components/features/adhkar/AdhkarIndexClient';
 import { generatePageMetadata } from '../../lib/seo/metadata';
 import { buildWebPageSchema, buildBreadcrumbSchema, buildItemListSchema } from '../../lib/seo/schema';
 import { PAGE_META } from '../../lib/seo/config';

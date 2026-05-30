@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Tajawal, Amiri } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
+import Script from 'next/script';
 import './globals.css';
 import { SEO_CONFIG } from '../lib/seo/config';
 import { buildGlobalSchemas } from '../lib/seo/schema';
@@ -171,13 +172,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ResourceHints />
         </head>
         <body>
-          {/* Theme detection script — must run before first paint to prevent FOUC */}
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `(function(){try{var t=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme:dark)').matches;if(t==='dark'||(t===null&&d)){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}})();`,
-            }}
-          />
-
           {/* Global JSON-LD Schemas: Organization + WebSite + MobileApp */}
           <JsonLd schema={buildGlobalSchemas()} />
 
@@ -202,11 +196,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       {/* Google Analytics 4 — conditionally rendered */}
       {SEO_CONFIG.analytics.googleAnalyticsId && (
         <>
-          <script
-            async
+          <Script
             src={`https://www.googletagmanager.com/gtag/js?id=${SEO_CONFIG.analytics.googleAnalyticsId}`}
+            strategy="afterInteractive"
           />
-          <script
+          <Script
+            id="google-analytics"
+            strategy="afterInteractive"
             dangerouslySetInnerHTML={{
               __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${SEO_CONFIG.analytics.googleAnalyticsId}',{page_path:window.location.pathname});`,
             }}

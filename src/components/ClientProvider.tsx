@@ -1,10 +1,22 @@
 "use client";
 
 import { useEffect } from 'react';
+import { useServerInsertedHTML } from 'next/navigation';
 import { useUIStore } from '../lib/store';
 
 export default function ClientProvider({ children }: { children: React.ReactNode }) {
   const { isFocusMode } = useUIStore();
+
+  useServerInsertedHTML(() => {
+    return (
+      <script
+        id="theme-detection-script"
+        dangerouslySetInnerHTML={{
+          __html: `(function(){try{var t=localStorage.getItem('theme');var d=window.matchMedia('(prefers-color-scheme:dark)').matches;if(t==='dark'||(t===null&&d)){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}})();`,
+        }}
+      />
+    );
+  });
 
   useEffect(() => {
     if (isFocusMode) {
@@ -28,3 +40,4 @@ export default function ClientProvider({ children }: { children: React.ReactNode
 
   return <>{children}</>;
 }
+

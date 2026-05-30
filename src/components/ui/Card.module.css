@@ -1,0 +1,40 @@
+.card {
+  padding: 20px 24px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--surface-glass);
+  box-shadow: var(--shadow-glass);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.3s ease, 
+              border-color 0.3s ease, 
+              background-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  color: var(--text-main);
+  outline: none;
+}
+
+.interactive {
+  cursor: pointer;
+}
+
+.interactive:hover {
+  transform: translateY(-4px);
+  border-color: rgba(16, 185, 129, 0.3);
+  background: linear-gradient(180deg, var(--surface-glass) 0%, rgba(16, 185, 129, 0.02) 100%);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08), var(--shadow-glass);
+}
+
+.interactive:active {
+  transform: translateY(-1px);
+}
+
+.interactive:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 20px;
+}
